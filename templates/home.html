@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Available Shoes</h1>
+    <ul>
+        {% for shoe in shoes %}
+            <li>
+                {{ shoe[1] }} - Stock: {{ shoe[2] }} - Price: ${{ shoe[3] }}
+                {% if shoe[2] > 0 %}
+                    <form action="{{ url_for('add_to_cart', sid=shoe[0]) }}" method="post" style="display:inline;">
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                {% else %}
+                    <span>Out of Stock</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="{{ url_for('cart') }}" method="get">
+        <button type="submit">Go to Cart</button>
+    </form>
+</body>
+</html>

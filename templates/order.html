@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details</title>
+</head>
+<body>
+    <h1>Order Details</h1>
+    <p>Order ID: {{ order[0] }}</p>
+    <p>Name: {{ order[1] }}</p>
+    <p>Address: {{ order[2] }}</p>
+    <p>Total: ${{ order[3] }}</p>
+    <h2>Items</h2>
+    <ul>
+        {% for item in items %}
+        <li>{{ item[0] }} - Quantity: {{ item[2] }}</li>
+        {% endfor %}
+    </ul>
+    <form action="{{ url_for('update_order', oid=order[0]) }}" method="post">
+        <input type="text" name="name" value="{{ order[1] }}" required>
+        <input type="text" name="address" value="{{ order[2] }}" required>
+        <button type="submit">Update Order</button>
+    </form>
+    <form action="{{ url_for('cancel_order', oid=order[0]) }}" method="post">
+        <button type="submit">Cancel Order</button>
+    </form>
+    <a href="{{ url_for('home') }}">Home</a>
+</body>
+</html>
