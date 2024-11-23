@@ -3,23 +3,27 @@ import sqlite3
 
 app = Flask(__name__) 
 
-
-@app.route('/') 
-@app.route('/home') 
-def index(): 
-	return render_template('index.html') 
-
-
 connect = sqlite3.connect('database.db') 
 connect.execute( 
-	'CREATE TABLE IF NOT EXISTS PARTICIPANTS (name TEXT, email TEXT, city TEXT, country TEXT, phone TEXT)') 
+	'CREATE TABLE IF NOT EXISTS ORDERS (oid INTEGER PRIMARY KEY, name TEXT, address TEXT, total NUMBER)', 
+	'CREATE TABLE IF NOT EXISTS SHOES (sid INTEGER PRIMARY KEY, name TEXT, stock NUMBER, price NUMBER)',
+	'CREATE TABLE IF NOT EXISTS CONTAINS(sid INT, oid INT, PRIMARY KEY (bid,oid), FOREIGN KEY (oid) REFERENCES ORDERS (oid), FOREIGN KEY (bid) REFERENCES BOOKS (bid)')
+
+# add date maybe later // check if oid type is correct
 
 
-@app.route('/join', methods=['GET', 'POST']) 
+@app.route('/') 
+@app.route('/home', methods=['GET', 'POST']) 
+def home(): 
+	if request.method == 'GET':
+
+	return render_template('home.html') 
+
+@app.route('/cart', methods=['GET', 'POST']) 
 def join(): 
 	if request.method == 'POST': 
 		name = request.form['name'] 
-		email = request.form['email'] 
+		address = request.form['address'] 
 		city = request.form['city'] 
 		country = request.form['country'] 
 		phone = request.form['phone'] 
